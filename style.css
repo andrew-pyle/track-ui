@@ -20,43 +20,6 @@ a {
   color: inherit;
 }
 
-button {
-  cursor: pointer;
-}
-
-input,
-button[type="submit"] {
-  font-size: 1.75rem;
-  border: none;
-  border: 1px solid hsla(0, 0%, 100%, 0.1);
-  color: inherit;
-  -webkit-appearance: none;
-}
-
-input {
-  /* background: hsla(240, 12%, 29%, 0.5); */
-  background: hsla(0, 0%, 100%, 0.1);
-  /* border: 1px solid hsla(240, 12%, 29%, 0.5); */
-}
-
-input::placeholder {
-  color: hsla(0, 0%, 100%, 0.2);
-}
-
-button:disabled {
-  opacity: 0.5;
-}
-
-button[type="submit"] {
-  font-family: inherit;
-  /* background: hsla(240, 12%, 29%, 1); */
-  background: hsla(0, 0%, 100%, 0.2);
-}
-
-.logo-text {
-  font-size: 1.5rem;
-}
-
 /* Layout */
 html,
 body {
@@ -82,63 +45,5 @@ main {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-}
-
-img {
-  height: 100%;
-}
-
-label {
-  font-size: 1.75rem;
-  margin: 0 0.3em;
-}
-
-input,
-button[type="submit"] {
-  padding: 0.5em 1em;
-}
-
-input {
-  border-top-left-radius: 100px;
-  border-bottom-left-radius: 100px;
-}
-
-button[type="submit"] {
-  border-top-right-radius: 100px;
-  border-bottom-right-radius: 100px;
-}
-
-@media screen and (max-width: 950px) {
-  label {
-    display: block;
-    text-align: center;
-    margin-bottom: 0.3em;
-  }
-}
-
-@media screen and (max-width: 750px) {
-  form {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 10px;
-  }
-  label {
-    margin: 0 auto;
-  }
-  input {
-    width: 100%;
-  }
-  input,
-  button[type="submit"] {
-    border-radius: 100px;
-  }
-}
-
-.form-row {
-  display: flex;
   align-items: center;
 }
