@@ -1,3 +1,9 @@
+export interface Recent {
+  trackingNumberInput: string;
+  trackingNumberLink: string;
+  trackingNumberCarrier: string;
+}
+
 export type Carrier = "USPS" | "UPS" | "Fedex";
 
 // Regex from https://stackoverflow.com/a/63115234/9612224

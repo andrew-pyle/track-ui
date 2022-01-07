@@ -1,16 +1,27 @@
 <svelte:options tag="tracking-input" />
 
 <script lang="ts">
+  import { onDestroy, onMount } from "svelte";
+  import "./RecentList.svelte";
+  import type { Recent } from "./tracking";
   import {
     parseTrackingNumber,
     createFedexTrackingLink,
     createUPSTrackingLink,
     createUSPSTrackingLink,
   } from "./tracking";
+
   let trackingNumberInput: string;
   let trackingNumberLink: URL;
   let trackingNumberCarrier: string;
   let trackingNumberError = false;
+  let recent: Recent[] = [];
+
+  onMount(() => {
+    recent = getPersistedRecents();
+  });
+
+  onDestroy(() => persistRecents(recent));
 
   // Determine Tracking page and create link
   $: {
@@ -42,8 +53,37 @@
     }
   }
 
-  const handleSubmit: svelte.JSX.FormEventHandler<HTMLFormElement> = () =>
+  function addRecent(newRecent: Recent): void {
+    const trackingNumberAlreadyInRecent = recent.some(
+      (r) => r.trackingNumberInput === newRecent.trackingNumberInput
+    );
+    if (trackingNumberAlreadyInRecent) {
+      return;
+    }
+    const updatedRecent = [...recent, newRecent];
+    persistRecents(updatedRecent);
+    recent = updatedRecent;
+  }
+
+  function getPersistedRecents(): Recent[] {
+    const hydratedRecent =
+      JSON.parse(localStorage.getItem("recent")) ?? ([] as Recent[]);
+    return hydratedRecent;
+  }
+
+  function persistRecents(recent: Recent[]) {
+    const jsonRecent = JSON.stringify(recent);
+    localStorage.setItem("recent", jsonRecent);
+  }
+
+  const handleSubmit: svelte.JSX.FormEventHandler<HTMLFormElement> = () => {
+    addRecent({
+      trackingNumberInput,
+      trackingNumberCarrier,
+      trackingNumberLink: trackingNumberLink.toString(),
+    });
     window.open(trackingNumberLink, "_blank", "noreferrer");
+  };
 </script>
 
 <form on:submit|preventDefault={handleSubmit}>
@@ -65,6 +105,7 @@
     <button type="submit">Track via <b>{trackingNumberCarrier}</b></button>
   {/if}
 </form>
+<recent-list list={recent} />
 
 <style>
   /* Typography */
@@ -75,6 +116,7 @@
   input,
   button[type="submit"] {
     font-size: 1.75rem;
+    font-family: inherit;
     border: none;
     border: 1px solid hsla(0, 0%, 100%, 0.1);
     color: inherit;
@@ -82,9 +124,7 @@
   }
 
   input {
-    /* background: hsla(240, 12%, 29%, 0.5); */
     background: hsla(0, 0%, 100%, 0.1);
-    /* border: 1px solid hsla(240, 12%, 29%, 0.5); */
   }
 
   input::placeholder {
@@ -97,7 +137,6 @@
 
   button[type="submit"] {
     font-family: inherit;
-    /* background: hsla(240, 12%, 29%, 1); */
     background: hsla(0, 0%, 100%, 0.2);
   }
 
