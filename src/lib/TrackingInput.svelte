@@ -84,6 +84,11 @@
     });
     window.open(trackingNumberLink, "_blank", "noreferrer");
   };
+
+  function handleRemoveRecent(removeLink: string): void {
+    recent = recent.filter((r) => r.trackingNumberLink !== removeLink);
+    persistRecents(recent);
+  }
 </script>
 
 <form on:submit|preventDefault={handleSubmit}>
@@ -105,7 +110,7 @@
     <button type="submit">Track via <b>{trackingNumberCarrier}</b></button>
   {/if}
 </form>
-<recent-list list={recent} />
+<recent-list list={recent} onremove={handleRemoveRecent} />
 
 <style>
   /* Typography */
