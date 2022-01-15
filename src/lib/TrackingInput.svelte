@@ -93,22 +93,24 @@
 
 <form on:submit|preventDefault={handleSubmit}>
   <label for="tracking-numbers"> Tracking Number </label>
-  <input
-    name="tracking-numbers"
-    id="tracking-numbers"
-    type="text"
-    placeholder="22222222222"
-    bind:value={trackingNumberInput}
-  />
-  {#if trackingNumberError}
-    <button type="submit" disabled={trackingNumberError}
-      >😫 Unknown Pattern</button
-    >
-  {:else if !trackingNumberLink}
-    <button type="submit" disabled>Enter Tracking Number</button>
-  {:else}
-    <button type="submit">Track via <b>{trackingNumberCarrier}</b></button>
-  {/if}
+  <div class="multi-element-pill">
+    <input
+      name="tracking-numbers"
+      id="tracking-numbers"
+      type="text"
+      placeholder="22222222222"
+      bind:value={trackingNumberInput}
+    />
+    {#if trackingNumberError}
+      <button type="submit" disabled={trackingNumberError}
+        >😫 Unknown Pattern</button
+      >
+    {:else if !trackingNumberLink}
+      <button type="submit" disabled>Enter Tracking Number</button>
+    {:else}
+      <button type="submit">Track via <b>{trackingNumberCarrier}</b></button>
+    {/if}
+  </div>
 </form>
 <RecentList list={recent} onremove={handleRemoveRecent} />
 
@@ -147,8 +149,9 @@
 
   /* Layout */
   label {
+    display: inline-block;
     font-size: 1.75rem;
-    margin: 0 0.3em;
+    margin: 0.3em 0;
   }
 
   input,
@@ -156,42 +159,36 @@
     padding: 0.5em 1em;
   }
 
-  input {
+  /* Give the elements matching internal straight sides, 
+     making one large pill. Stacks into multipls pills
+     on small screens */
+  .multi-element-pill {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+  }
+  .multi-element-pill :first-child {
     border-top-left-radius: 100px;
     border-bottom-left-radius: 100px;
   }
-
-  button[type="submit"] {
+  .multi-element-pill :last-child {
     border-top-right-radius: 100px;
     border-bottom-right-radius: 100px;
   }
-
-  @media screen and (max-width: 950px) {
-    label {
-      display: block;
-      text-align: center;
-      margin-bottom: 0.3em;
+  @media screen and (max-width: 750px) {
+    /* Remove the matching straight sides, making both pills */
+    .multi-element-pill > * {
+      border-radius: 100px;
     }
   }
 
   @media screen and (max-width: 750px) {
-    form {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 10px;
-    }
-    label {
-      margin: 0 auto;
-    }
+    /* When its on own line,
+       make input as wide as container for easier typing */
     input {
       width: 100%;
-    }
-    input,
-    button[type="submit"] {
-      border-radius: 100px;
     }
   }
 </style>
