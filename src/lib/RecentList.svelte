@@ -1,5 +1,3 @@
-<svelte:options tag="recent-list" />
-
 <script lang="ts">
   import type { Recent } from "./tracking";
   export let list: Recent[] = [];

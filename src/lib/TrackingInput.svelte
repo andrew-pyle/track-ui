@@ -2,7 +2,7 @@
 
 <script lang="ts">
   import { onDestroy, onMount } from "svelte";
-  import "./RecentList.svelte";
+  import RecentList from "./RecentList.svelte";
   import type { Recent } from "./tracking";
   import {
     parseTrackingNumber,
@@ -110,7 +110,7 @@
     <button type="submit">Track via <b>{trackingNumberCarrier}</b></button>
   {/if}
 </form>
-<recent-list list={recent} onremove={handleRemoveRecent} />
+<RecentList list={recent} onremove={handleRemoveRecent} />
 
 <style>
   /* Typography */
