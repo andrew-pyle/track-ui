@@ -60,7 +60,7 @@
     if (trackingNumberAlreadyInRecent) {
       return;
     }
-    const updatedRecent = [...recent, newRecent];
+    const updatedRecent = [newRecent, ...recent];
     persistRecents(updatedRecent);
     recent = updatedRecent;
   }
